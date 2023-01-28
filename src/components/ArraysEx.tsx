@@ -8,38 +8,22 @@ export function ArraysEx() {
     "Purple",
     "Blue",
   ]);
-  const [pets] = React.useState<Pet[]>([
-    { name: "FlutterNutters", type: "cat", id: 1 },
-    { name: "Mocha", type: "dog", id: 2 },
-    { name: "Sophie", type: "hamster", id: 3 },
+  const [pets, removePet] = React.useState<Pet[]>([
+    { name: "FlutterNutters", type: "Cat", id: 1 },
+    { name: "Mocha", type: "Dog", id: 2 },
+    { name: "Sophie", type: "Hamster", id: 3 },
   ]);
 
-  pets.map((pet) => (
-    <div>
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-        </tr>
-        <tr>
-          <td key={pet.id}>{pet.name}</td>
-          <td key={pet.id}>{pet.type}</td>
-        </tr>
-        <tr>
-          <td key={pet.id}>{pet.name}</td>
-          <td key={pet.id}>{pet.type}</td>
-        </tr>
-        <tr>
-          <td key={pet.id}>{pet.name}</td>
-          <td key={pet.id}>{pet.type}</td>
-        </tr>
-      </table>
-    </div>
-  ));
+  function deleteById(id: number): void {
+    removePet((oldValues) => {
+      return oldValues.filter((pet) => pet.id !== id);
+    });
+  }
 
   function addColor(color: string): void {
     setColors([...colors, color]);
   }
+
   return (
     <div>
       <ol>
@@ -52,6 +36,19 @@ export function ArraysEx() {
       </ol>
       <button onClick={() => addColor("Yellow")}>Yellow</button>
       <button onClick={() => addColor("Green")}>Green</button>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+        </tr>
+        {pets.map((pet) => (
+          <tr>
+            <td key={pet.id}>{pet.name}</td>
+            <td key={pet.id}>{pet.type}</td>
+            <button onClick={() => deleteById(pet.id)}>Delete</button>
+          </tr>
+        ))}
+      </table>
     </div>
   );
 }
